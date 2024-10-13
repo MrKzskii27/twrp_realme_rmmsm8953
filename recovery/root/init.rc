@@ -1,0 +1,26 @@
+write /sys/block/${dev.mnt.blk.root}/queue/read_ahead_kb 128
+write /sys/block/${dev.mnt.blk.data}/queue/read_ahead_kb 128
+
+on property:dev.mnt.blk.root=* && property:sys.read_ahead_kb=*
+    write /sys/block/${dev.mnt.blk.root}/queue/read_ahead_kb ${sys.read_ahead_kb:-2048}
+
+on property:dev.mnt.blk.system=* && property:sys.read_ahead_kb=*
+    write /sys/block/${dev.mnt.blk.system}/queue/read_ahead_kb ${sys.read_ahead_kb:-2048}
+
+on property:dev.mnt.blk.vendor=* && property:sys.read_ahead_kb=*
+    write /sys/block/${dev.mnt.blk.vendor}/queue/read_ahead_kb ${sys.read_ahead_kb:-2048}
+
+on property:dev.mnt.blk.product=* && property:sys.read_ahead_kb=*
+    write /sys/block/${dev.mnt.blk.system_ext}/queue/read_ahead_kb ${sys.read_ahead_kb:-2048}
+
+on property:dev.mnt.blk.oem=* && property:sys.read_ahead_kb=*
+    write /sys/block/${dev.mnt.blk.oem}/queue/read_ahead_kb ${sys.read_ahead_kb:-2048}
+
+on property:dev.mnt.blk.data=* && property:sys.read_ahead_kb=*
+    write /sys/block/${dev.mnt.blk.data}/queue/read_ahead_kb ${sys.read_ahead_kb:-2048}
+
+on early-fs:
+    setprop sys.read_ahead_kb ${ro.read_ahead_kb.boot:-2048}
+
+on property:sys.boot_completed=1
+   setprop sys.read_ahead_kb ${ro.read_ahead_kb.bootcomplete:-128}
